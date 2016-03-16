@@ -1,0 +1,96 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>test</title>
+</head>
+<body>
+    
+    ##引入文件头部(动态引入模板:包含VTL)
+    #parse("heard.html")
+    
+    ##输出文件头部内容
+	<h1>$!frameWork</h1>
+	<hr>
+	<h1>Test列表操作</h1>
+	
+	</br>
+	</br>
+	</br>
+	
+	##调用宏(动态引入模板:包含VTL)
+	#parse("macroTest.html")
+	#say("调用宏成功!!");
+	
+	</br>
+	</br>
+	</br>
+	
+	##调用自定义指令：import
+	$request.setAttribute("myAge","18")
+	#import("/test/import.do?name=guowenfu",$request,$response)
+	
+	</br>
+	#testInfo("===============================================")
+	</br>
+	</br>
+	
+	##调用java类方法
+	$commonTool.echo("调用调用java类方法")
+	
+	</br>
+	</br>
+	</br>
+	
+	##获取request上下文
+	工程名：${rc.contextPath}
+	
+	</br>
+	</br>
+	##
+	##
+	## Test测试：增、删、改、查
+	## 
+	##
+	<form action="findByName.do" method="post" name="listform">
+		
+		##查找按钮
+		名称：<input type="text" name="name">&nbsp;<input type="submit" value=" 查找 ">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		
+		##增加Test连接
+		<a href="save.do">增加Test信息</a>
+		
+		##Test列表展示
+		<table border="1">
+			<tr>
+				<td>用户名</td>
+				<td>手机号码</td>
+				<td>出生日期</td>
+				<td>操作</td>
+				<td>操作</td>
+			</tr>
+			
+			## 没有数据展示
+			#if(!$testList)
+				<tr>
+					<td colspan="3">没有测试数据</td>
+				</tr>
+			#else
+			    ## 叠代输出
+				#foreach($test in $testList)
+				<tr>
+					<td>$test.name</td>
+					<td>$test.phone</td>
+					<td>$test.birthday</td>
+					<td><a href="update.do?id=${test.id}">更新</a></td>
+					<td><a href="delete.do?id=${test.id}">删除</a></td>
+				</tr>
+				#end
+			#end
+		</table>
+	</form>
+</body>
+
+##引入文件底部(静态引入模板:纯文件)
+#include("bottom.html")
+
+</html>

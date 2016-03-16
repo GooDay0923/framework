@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.persistent.test.jdbc.ITestJdbc">
+
+	<!-- 定义数据库字段与实体对象的映射关系 -->
+	<resultMap id="testBeanResultMap" type="TestBean">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		<result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" javaType="java.util.Date" jdbcType="DATE" />
+	</resultMap>
+
+	<!-- 定义要操作的SQL语句 -->
+	
+	<!-- 插入SQL -->
+	<insert id="saveTest" parameterType="com.framework.persistent.test.domain.TestBean" useGeneratedKeys="true" keyProperty="id">
+		insert into TTest(name,phone,birthday) values(#{name},#{phone},#{birthday})
+	</insert>
+
+    <!-- 更新SQL -->
+	<update id="updateTest" parameterType="com.framework.persistent.test.domain.TestBean">
+		update TTest set phone=#{phone},birthday=#{birthday} where id=#{id}
+	</update>
+
+    <!-- 删除SQL -->
+	<delete id="deleteTest" parameterType="int">
+		delete from TTest where id=#{id}
+	</delete>
+
+     <!-- 根据参数获取实体Bean SQL -->
+	<select id="findTestById" parameterType="int" resultMap="testBeanResultMap">
+		select id,name,phone,birthday from TTest where id=#{id}
+	</select>
+
+    <!-- 根据名称获取实体Bean SQL -->
+	<select id="findTestByName" parameterType="String" resultMap="testBeanResultMap">
+		select id,name,phone,birthday from TTest where name=#{name}
+	</select>
+	
+    <!-- 获取所有实体Bean SQL -->
+	<select id="findTestAll" resultMap="testBeanResultMap">
+		select id,name,phone,birthday from ttest
+	</select>
+	
+	 <!-- 获取所有实体Bean SQL -->
+	<select id="findTestAllForHashMap" resultType="hashmap">
+		select id,name,phone,birthday from ttest
+	</select>
+	
+</mapper>

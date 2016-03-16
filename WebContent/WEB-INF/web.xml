@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>FrameWork</display-name>
+	
+	<!--proxool数据库连接池配置-->
+	<context-param>
+		<param-name>proxoolXmlFile</param-name>
+		<param-value>WEB-INF/classes/proxool/proxool.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.framework.basic.listener.ProxoolInitialListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>dbpoolAdmin</servlet-name>
+		<servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dbpoolAdmin</servlet-name>
+		<url-pattern>/dbpool.do</url-pattern>
+	</servlet-mapping>
+	
+    <!--spring配置 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/applicationContext.xml</param-value>
+	</context-param>
+	
+	<!--初始化spring-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+    <!--spring字符集-->
+	<filter> 
+	    <filter-name>Springfilter</filter-name> 
+	         <filter-class>org.springframework.web.filter.CharacterEncodingFilter 
+	    </filter-class> 
+	    <init-param> 
+	          <param-name>encoding</param-name> 
+	          <param-value>UTF-8</param-value> 
+	    </init-param> 
+    </filter> 
+	<filter-mapping> 
+	     <filter-name>Springfilter</filter-name> 
+	     <url-pattern>/*</url-pattern> 
+	</filter-mapping>
+   
+	<!--spring拦截-->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/index.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/index.jsp</url-pattern>
+	</servlet-mapping>
+	
+	<!--后台管理会话超时，时间为10分钟-->
+	<session-config>
+       <session-timeout>10</session-timeout>
+    </session-config>
+</web-app>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<toolbox> 
+    <tool> 
+        <key>commonTool</key> 
+        <class>com.framework.common.Tool</class> 
+    </tool> 
+</toolbox> 
